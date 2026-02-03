@@ -1,51 +1,64 @@
 import React, { useEffect } from 'react'
-import { createContext,useContext,useState} from 'react'
+import { createContext, useContext, useState } from 'react'
 
-export const CartContext=createContext();
+export const CartContext = createContext();
 
-function CartProvider({children}) {
+function CartProvider({ children }) {
 
-    const [items,setItems]=useState([])
-    const[loading,setLoading]=useState(true)
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  //step1 initialize cart items from local storage on component creation
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('cartItems')
+    return savedCart ? JSON.parse(savedCart) : []
+  })
+  //step 2: add item to cart and save to local storage
 
-    function addToCart(product){
-      const exists=items.find((item)=>item.id===product.id)
-      if(exists) return
-        setItems(prev=>[...prev,product])
-    }
+  function addToCart(product) {
+    const exists = cartItems.find((item) => item.id === product.id)
+    if (exists) return
+    const updatedCart = [...cartItems, product]
 
-    function isInCart(productId){
-      return items.some((item)=>item.id===productId)
-    }
-    function removeFromCart(productId){
+    setCartItems(updatedCart)
+
+    localStorage.setItem('cartItems', JSON.stringify(updatedCart))
+  }
+  // Add this function before the return statement
+  function isInCart(productId) {
+    return cartItems.some(item => item.id === productId);
+  }
+
+  function removeFromCart(productId) {
     //step 1
-    const currentItems=items
+    const currentItems = cartItems
     //step2
-    const updatedItems=currentItems.filter
-    ((item)=>{
-      return item.id !==productId
-    })
+    const updatedItems = currentItems.filter
+      ((item) => {
+        return item.id !== productId
+      })
     //step3
-    setItems(updatedItems)
+    setCartItems(updatedItems)
+    localStorage.setItem('cartItems', JSON.stringify(updatedItems))
+  }
+  const cartCount = cartItems.length
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products')
+        const data = await response.json()
+        setItems(data)
+        setLoading(false)
+      } catch (error) {
+        console.error("Error fetching products:", error)
+        setLoading(false)
+      }
     }
-    const cartCount=items.length
-    useEffect(() => {
-        async function fetchProducts() {
-          try {
-            const response = await fetch('https://fakestoreapi.com/products')
-            const data = await response.json()
-            setItems(data)
-            setLoading(false)
-          } catch (error) {
-            console.error("Error fetching products:", error)
-            setLoading(false)
-          }
-        }
-    
-        fetchProducts()
-      }, [])
+
+    fetchProducts()
+  }, [])
+  const cartTotal = cartItems.reduce((total, item) => total + item.price, 0)
   return (
-   <CartContext.Provider value={{items,addToCart,cartCount,isInCart,removeFromCart,loading}}> {children}</CartContext.Provider>
+    <CartContext.Provider value={{ items, addToCart, cartCount, isInCart, removeFromCart, loading, cartItems, cartTotal }}> {children}</CartContext.Provider>
   )
 }
 
