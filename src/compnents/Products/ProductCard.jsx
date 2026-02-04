@@ -1,12 +1,13 @@
 import React from 'react'
 import { useCart } from '../../Hooks/useCart'
+import { Link } from 'react-router-dom'
 
 function ProductCard({ product }) {
   const { addToCart, isInCart, removeFromCart } = useCart()
   const isCart = isInCart(product.id)
 
   return (
-    <div className="max-w-xs bg-white rounded-xl shadow-md border border-gray-200 p-5 flex flex-col gap-4 transition hover:shadow-lg">
+    <Link to= {`/products/${product.id}`}   className="max-w-xs bg-white rounded-xl shadow-md border border-gray-200 p-5 flex flex-col gap-4 transition hover:shadow-lg">
       <img
         src={product.image}
         alt={product.name}
@@ -29,7 +30,7 @@ function ProductCard({ product }) {
           Add to Cart
         </button>
       )}
-    </div>
+    </Link>
   )
 }
 

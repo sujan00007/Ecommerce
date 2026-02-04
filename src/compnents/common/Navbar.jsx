@@ -6,31 +6,31 @@ function Navbar() {
   const { cartCount } = useCart()
 
   return (
-    <nav className="bg-white/70 backdrop-blur sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center">
-        <h1 className="flex-1 text-lg md:text-2xl font-bold text-indigo-700 tracking-tight">
+    <nav className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 sticky top-0 z-50 shadow-lg">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center">
+        <h1 className="flex-1 text-lg md:text-2xl font-bold text-white tracking-tight">
           Ecommerce
         </h1>
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-6">
           <Link
             to="/"
-            className="text-sm md:text-base text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded transition"
+            className="text-sm md:text-base text-white hover:text-indigo-100 px-3 py-2 rounded-lg transition font-medium hover:bg-white/10"
           >
             Home
           </Link>
           <Link
             to="/products"
-            className="text-sm md:text-base text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded transition"
+            className="text-sm md:text-base text-white hover:text-indigo-100 px-3 py-2 rounded-lg transition font-medium hover:bg-white/10"
           >
             Products
           </Link>
           <Link
             to="/cart"
-            className="relative text-sm md:text-base text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded transition flex items-center"
+            className="relative text-sm md:text-base text-white hover:text-indigo-100 px-3 py-2 rounded-lg transition flex items-center font-medium hover:bg-white/10"
           >
             Cart
             {cartCount > 0 && (
-              <span className="ml-1 bg-indigo-600 text-white text-xs font-semibold rounded-full px-2 py-0.5">
+              <span className="ml-1 bg-white text-indigo-700 text-xs font-bold rounded-full px-2 py-0.5 shadow-md">
                 {cartCount}
               </span>
             )}
