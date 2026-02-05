@@ -1,5 +1,5 @@
 const categoryData = [
-    " men's clothing",
+    "men's clothing",
 
     "jewelery",
 
