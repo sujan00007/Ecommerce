@@ -35,6 +35,12 @@ function Navbar() {
               </span>
             )}
           </Link>
+          <Link
+            to="/login"
+            className="text-sm md:text-base text-white hover:text-indigo-100 px-3 py-2 rounded-lg transition font-medium hover:bg-white/10"
+          >
+            Login
+          </Link>
         </div>
       </div>
     </nav>
